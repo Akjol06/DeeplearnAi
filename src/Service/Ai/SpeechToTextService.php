@@ -52,7 +52,7 @@ class SpeechToTextService
                 'json' => [
                     'audio_url' => $audioUrl,
                     'speech_models' => ['universal-2'],
-                    'language_code' => 'en_us',
+                    'language_detection' => true,
                     'punctuate' => true,
                     'format_text' => true,
                 ],
@@ -64,7 +64,7 @@ class SpeechToTextService
 
         // 3) ожидание результата
         do {
-            sleep(1);
+            sleep(2);
             $statusResponse = $this->client->request('GET',
                 "https://api.assemblyai.com/v2/transcript/{$transcriptId}",
                 [

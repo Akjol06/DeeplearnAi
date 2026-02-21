@@ -25,26 +25,22 @@ class AnalyzeResponseService
             ];
         }
 
+        $toArray = function($field) {
+            if (empty($field)) {
+                return [];
+            }
+            // Если ассоциативный массив — берем только значения
+            if (array_values($field) !== $field) {
+                return array_values($field);
+            }
+            return $field;
+        };
+
         return [
-            'score' =>
-                $data['score']
-                ?? $data['оценка_понимания_темы']
-                    ?? null,
-
-            'correct_aspects' =>
-                $data['correct_aspects']
-                ?? $data['правильные_аспекты']
-                    ?? [],
-
-            'mistakes' =>
-                $data['mistakes']
-                ?? $data['ошибки']
-                    ?? [],
-
-            'recommendations' =>
-                $data['recommendations']
-                ?? $data['рекомендации']
-                    ?? [],
+            'score' => $data['score'] ?? $data['оценка'] ?? 0,
+            'correct_aspects' => $toArray($data['correct_aspects'] ?? $data['правильно'] ?? []),
+            'mistakes' => $toArray($data['mistakes'] ?? $data['ошибки'] ?? []),
+            'recommendations' => $toArray($data['recommendations'] ?? $data['рекомендации'] ?? []),
         ];
     }
 }
